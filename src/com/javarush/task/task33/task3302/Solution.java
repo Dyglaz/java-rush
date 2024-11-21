@@ -1,14 +1,15 @@
-package com.javarush.task.task33.task3301;
+package com.javarush.task.task33.task3302;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.ArrayList;
 
 /* 
-Первая сериализация в JSON
+Вторая сериализация в JSON
 */
 
 public class Solution {
@@ -18,19 +19,9 @@ public class Solution {
         cat.age = 5;
         cat.weight = 3;
 
-        Dog dog = new Dog();
-        dog.name = "Killer";
-        dog.age = 8;
-        dog.owner = "Bill Jeferson";
-
-        ArrayList<Pet> pets = new ArrayList<>();
-        pets.add(cat);
-        pets.add(dog);
-
         StringWriter writer = new StringWriter();
-        convertToJSON(writer, pets);
+        convertToJSON(writer, cat);
         System.out.println(writer.toString());
-        //[{"name":"Murka","age":5,"weight":3},{"name":"Killer","age":8,"owner":"Bill Jeferson"}]
     }
 
     public static void convertToJSON(StringWriter writer, Object object) throws IOException {
@@ -39,19 +30,17 @@ public class Solution {
     }
 
     @JsonAutoDetect
-    public static class Pet {
+    public static class Cat {
+        @JsonProperty("wildAnimal")
         public String name;
-    }
 
-    @JsonAutoDetect
-    public static class Cat extends Pet {
+        @JsonIgnore
         public int age;
+
+        @JsonProperty("over")
         public int weight;
-    }
 
-    @JsonAutoDetect
-    public static class Dog extends Pet {
-        public int age;
-        public String owner;
+        Cat() {
+        }
     }
 }
